@@ -168,7 +168,11 @@ open class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
     lazy var sidePanelPosition: SidePanelPosition = {
         return self._preferences.drawing.sidePanelPosition
     }()
-    
+
+    lazy var tintColor: UIColor = {
+        return self._preferences.drawing.tintColor
+    }()
+
     var screenSize: CGSize {
         return self.view.frame.size
     }

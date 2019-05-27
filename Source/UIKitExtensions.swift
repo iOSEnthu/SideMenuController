@@ -48,7 +48,7 @@ public extension UINavigationController {
         button.accessibilityIdentifier = SideMenuController.preferences.interaction.menuButtonAccessibilityIdentifier
         button.setImage(image, for: .normal)
         button.addTarget(sideMenuController, action: #selector(SideMenuController.toggle), for: UIControl.Event.touchUpInside)
-        button.tintColor = tintColor
+        button.tintColor = SideMenuController.preferences.drawing.tintColor
 
         if SideMenuController.preferences.drawing.sidePanelPosition.isPositionedLeft {
             let newItems = computeNewItems(sideMenuController: sideMenuController, button: button, controller: self.topViewController, positionLeft: true, tintColor: tintColor)
