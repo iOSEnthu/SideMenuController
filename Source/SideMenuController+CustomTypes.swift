@@ -48,6 +48,7 @@ public extension SideMenuController {
             public var sidePanelWidth: CGFloat = 300
             public var centerPanelOverlayColor = UIColor(hue:0.15, saturation:0.21, brightness:0.17, alpha:0.6)
             public var centerPanelShadow = false
+            public var tintColor: UIColor = .black
         }
         
         public struct Animating {

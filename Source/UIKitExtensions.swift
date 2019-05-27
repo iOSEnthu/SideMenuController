@@ -37,7 +37,8 @@ public extension UINavigationController {
     func addSideMenuButton(completion: ((UIButton) -> ())? = nil) {
         guard let image = SideMenuController.preferences.drawing.menuButtonImage else {
             return
-        }
+        } 
+        let tintColor = SideMenuController.preferences.drawing.tintColor
         
         guard let sideMenuController = self.sideMenuController else {
             return
@@ -47,19 +48,19 @@ public extension UINavigationController {
         button.accessibilityIdentifier = SideMenuController.preferences.interaction.menuButtonAccessibilityIdentifier
         button.setImage(image, for: .normal)
         button.addTarget(sideMenuController, action: #selector(SideMenuController.toggle), for: UIControl.Event.touchUpInside)
-        
+        button.tintColor = tintColor
+
         if SideMenuController.preferences.drawing.sidePanelPosition.isPositionedLeft {
-            let newItems = computeNewItems(sideMenuController: sideMenuController, button: button, controller: self.topViewController, positionLeft: true)
+            let newItems = computeNewItems(sideMenuController: sideMenuController, button: button, controller: self.topViewController, positionLeft: true, tintColor: tintColor)
             self.topViewController?.navigationItem.leftBarButtonItems = newItems
         } else {
-            let newItems = computeNewItems(sideMenuController: sideMenuController, button: button, controller: self.topViewController, positionLeft: false)
+            let newItems = computeNewItems(sideMenuController: sideMenuController, button: button, controller: self.topViewController, positionLeft: false, tintColor: tintColor)
             self.topViewController?.navigationItem.rightBarButtonItems = newItems
         }
-        
         completion?(button)
     }
     
-    private func computeNewItems(sideMenuController: SideMenuController, button: UIButton, controller: UIViewController?, positionLeft: Bool) -> [UIBarButtonItem] {
+    private func computeNewItems(sideMenuController: SideMenuController, button: UIButton, controller: UIViewController?, positionLeft: Bool, tintColor: UIColor) -> [UIBarButtonItem] {
         
         var items: [UIBarButtonItem] = (positionLeft ? self.topViewController?.navigationItem.leftBarButtonItems :
             self.topViewController?.navigationItem.rightBarButtonItems) ?? []
@@ -67,15 +68,18 @@ public extension UINavigationController {
         for item in items {
             if let button = item.customView as? UIButton,
                 button.allTargets.contains(sideMenuController) {
+                button.tintColor = tintColor
                 return items
             }
         }
         
         let item:UIBarButtonItem = UIBarButtonItem()
         item.customView = button
-        
+        item.tintColor = tintColor
+
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
         spacer.width = -10
+        spacer.tintColor = tintColor
         
         items.append(contentsOf: positionLeft ? [spacer, item] : [item, spacer])
         return items
